@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API LOGIN</title>
+    <style>
+        *{
+            margin:0px;
+            padding: 0px;        
+        }
+        .aaa{
+            padding: 10px 10px;
+            border: 1px solid rgb(47, 189, 18);
+            border-radius: 5px;
+        }
+
+
+    </style>
+</head>
+<body>
+    <form id="Login">
+        <label for="username">账号:</label>
+        <input type="text"id='username'name='username'required>
+        <br>
+        <label for="password">密码:</label>
+        <input type="text"id='password'name='password'required>
+        <br>
+        <button type="submit" class="aaa">登录</button>
+    </form>
+    <div id="message"></div>
+
+
+    <script>
+    document.getElementById('Login').addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
+
+    const loginData = {
+        name: username,
+        password: password
+    };
+
+    fetch('/api/login', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(loginData)
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.message === 'Login successful') {
+            console.log('Login successful:', data);
+            document.getElementById('message').textContent =  data.message;
+        } else {
+            document.getElementById('message').textContent = data.message;
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        document.getElementById('message').textContent = 'ERROR';
+        });
+    });
+    </script>
+</body>
+</html>

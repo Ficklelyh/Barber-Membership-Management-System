@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>GET</title>
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+</head>
+<body>
+<h1>理发会员系统</h1>
+    <table id="userTable">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>姓名</th>
+                <th>办理时间</th>
+                <th>到期时间</th>
+	<th>备注</th>
+            </tr>
+        </thead>
+        <tbody id="userList">
+        </tbody>
+    </table>
+</body>
+<script>
+    $(function(){
+        $.get({
+            url: '/api/getVipUserList',
+            data: '',
+            success: function(res){ 
+                console.log(res);
+                if (res.message && Array.isArray(res.message)) {
+                    res.message.forEach(item => {
+                        $('#userList').append('<tr><td>' + item.id + '</td><td>' + item.name + '</td><td>' + item.start + '</td><td>' + item.end + '</td><td>'+'' + item.note + '</td></tr>');
+                    });
+                } else {
+                    console.error('Invalid response format');
+                }
+            },
+            error: function(error){
+                console.log(error);
+            }
+        });
+    });
+</script>
+</html>
